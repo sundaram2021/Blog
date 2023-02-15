@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import "../css/home.css";
 import img2 from "../images/write.png";
@@ -7,9 +7,34 @@ import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 
 function Home() {
+  const [firstName, setFirstName] = useState("");
+
+  const token = JSON.parse(localStorage.getItem("token2"));
+
+  async function fetchUser() {
+    const res = await fetch("http://localhost:4000", {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "x-access-token": token,
+      },
+    });
+
+    if (res.ok) {
+      const { firstName } = await res.json();
+      setFirstName(firstName);
+    }
+  }
+
+  useEffect(() => {
+    fetchUser();
+  });
+
+  // console.log(firstName);
+
   return (
     <>
-      <Navbar />
+      <Navbar user={firstName} />
       <main className="main">
         <div className="hero">
           <img src={img2} alt="" />

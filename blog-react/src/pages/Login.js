@@ -23,7 +23,7 @@ export default function SignIn() {
       password: data.get('password'),
     };
 
-    const res = await fetch("http://localhost:4000/login", {
+    const res = await fetch("http://localhost:4000/api/login", {
       method: "POST",
       body: JSON.stringify(form),
       headers: {
@@ -34,7 +34,7 @@ export default function SignIn() {
     const { token } = await res.json();
 
     if(res.ok){
-      localStorage.setItem('token', JSON.stringify(token));
+      localStorage.setItem('token2', JSON.stringify(token));
       alert('user is logged in');
       navigate("/")
     }
