@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 
 function Home() {
-  const [firstName, setFirstName] = useState("");
+  // const [firstName, setFirstName] = useState("");
 
   const token = JSON.parse(localStorage.getItem("token2"));
 
@@ -22,19 +22,19 @@ function Home() {
 
     if (res.ok) {
       const { firstName } = await res.json();
-      setFirstName(firstName);
+      localStorage.setItem("firstName", firstName);
     }
   }
 
   useEffect(() => {
     fetchUser();
-  });
+  }, []);
 
   // console.log(firstName);
 
   return (
     <>
-      <Navbar user={firstName} />
+      <Navbar />
       <main className="main">
         <div className="hero">
           <img src={img2} alt="" />
