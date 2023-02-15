@@ -1,15 +1,22 @@
-import React from 'react';
-
+import React from "react";
+import "../css/Avatar.css";
+import img from "../images/img.jpg";
 const UserImage = ({ name }) => {
-  const initials = name.charAt(0).toUpperCase();
+  console.log(name);
+  let ame = "sundaram";
+  const initials = name[0].toUpperCase();
+  const url = `https://dummyimage.com/40x50/999/fff&text=${initials}`;
 
   const styles = {
-    background: `url(https://dummyimage.com/50x50/999/fff&text=${initials})`,
-    backgroundSize: 'cover',
-    borderRadius: '50%',
+    color: "black",
+    fontSize: "10px",
+    fontWeight: "800",
+    backgroundColor: "#" + Math.floor(100000 + Math.random() * 900000),
   };
 
-  return <div className="user-image" style={styles}></div>;
+  return (
+    <img className="user-image" style={styles} src={url !== "" ? url : img} />
+  );
 };
 
 export default UserImage;

@@ -12,6 +12,10 @@ function Navbar({ user }) {
 
   const [links, setLinks] = useState(false);
 
+  const logout = () => {
+    localStorage.removeItem("token2");
+  }
+
   return (
     <nav className='navbar'>
         <div className='logo'>
@@ -23,10 +27,10 @@ function Navbar({ user }) {
               <Link to="/">Home</Link>
               <Link to="/blogs">Blogs</Link>
               <Link to='/write'>Write</Link>
-              <Link to='/login'>Login</Link>
-              <Link to='/register'>Register</Link>
+              {(localStorage.getItem('token2')) ? <Link onClick={logout} to='/'>Logout</Link> : <Link  to="/login">Login</Link>}
+              {!(localStorage.getItem('token2')) ? <Link to='/register'>Register</Link> : ""}
           </div>
-          {<img src={ img } alt='' /> ||  <UserImage name={user.name} />}
+          {<UserImage name={user} /> || <img src={ img } alt='' />  }
           <div>
     </div>
         </div>
