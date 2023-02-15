@@ -3,10 +3,15 @@ import { useQuill } from 'react-quilljs';
 import 'quill/dist/quill.snow.css';
 import Navbar from "./Navbar";
 import "../css/write.css";
+import { useNavigate } from "react-router-dom";
 
 function Write() {
-  const [title, setTitle] = useState("");
-  const [value, setValue] = useState('');
+  const navigate = useNavigate();
+  const [value, setValue] = useState({
+    title: "",
+    body: ""
+  })
+
   const { quill, quillRef } = useQuill({
     modules : {
       toolbar: [
@@ -27,33 +32,48 @@ function Write() {
     }
   });
 
-  useEffect(() => {
-    if (quill) {
-      quill.on('text-change', () => {
-        setValue(quillRef.current.firstChild.innerHTML); // Get innerHTML using quillRef
-      });
-    }
-  }, [quill]);
+  if (quill) {
+    quill.on('text-change', () => {
+      setValue({...value, body: quillRef.current.firstChild.innerHTML}); // Get innerHTML using quillRef
+    });
+  }
 
-  console.log(value);
-  console.log(title);
+
+
+
+  async function handleBlog() {
+    console.log(value);
+
+    const res = await fetch("http://localhost:4000/blog", {
+      method: "POST",
+      body: JSON.stringify(value),
+      headers: {
+        'Content-Type': "application/json",
+      }
+    })
+    if(res.ok){
+      setValue("")
+      alert('Blog is Posted');
+      navigate("/");
+    }
+  }
   return (
     <>
       <Navbar />
       <div className="body">
         <div className="main-div">
           <input
-            value={title}
+            value={value.title}
             type="text"
             placeholder="enter the title..."
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => setValue({...value, title: e.target.value})}
           />
           <div className="icons-div">
             <div>
-              <div ref={quillRef} style={{color: 'black', fontSize: '1.1rem', height: '35vh', border: 'none'}} />
+              <div ref={quillRef}  style={{color: 'black', fontSize: '1.1rem', height: '35vh', border: 'none'}} />
             </div>
           </div>  
-          <button className="button">publish</button>
+          <button className="button" onClick={handleBlog}>publish</button>
         </div>
       </div>
     </>
