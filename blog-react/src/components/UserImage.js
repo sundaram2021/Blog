@@ -1,9 +1,8 @@
 import React from "react";
 import "../css/Avatar.css";
 import img from "../images/img.jpg";
-const UserImage = ({ name }) => {
-  console.log(name);
-  let ame = "sundaram";
+const UserImage = () => {
+  const name = localStorage.getItem("firstName");
   const initials = name[0].toUpperCase();
   const url = `https://dummyimage.com/40x50/999/fff&text=${initials}`;
 
