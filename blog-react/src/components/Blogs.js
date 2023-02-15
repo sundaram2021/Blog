@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import "../css/blog.css";
 import { FaHeart } from "react-icons/fa";
@@ -7,12 +7,11 @@ import { FaRegComment } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaShareAlt } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
-import Share from './Share';
-
 
 function Blogs() {
   const [like, setLike] = useState(false);
   const [save, setSave] = useState(false);
+  const [blogs, setBlogs] = useState([]);
 
   const comment = () => {
     return (
@@ -20,49 +19,68 @@ function Blogs() {
         <h1>Hello div</h1>
       </div>
     );
+  };
+
+  const handleClick = () => {
+    const url = window.location.href;
+    navigator.clipboard
+      .writeText(url)
+      .then(() => {
+        alert("URL copied to clipboard");
+      })
+      .catch((err) => {
+        console.error("Failed to copy URL: ", err);
+        alert("please copy again");
+      });
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  async function getData() {
+    const res = await fetch("http://localhost:4000/getdata", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (res.ok) {
+      const { myBlogs } = await res.json();
+      setBlogs([...blogs, myBlogs]);
+    }
   }
 
   return (
     <>
       <Navbar />
-      <main className="blog-main">
-        <div>
-          <h2>Hello</h2>
-          <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae
-            harum quibusdam nisi molestias. Quaerat ipsa at, aut sint
-            perspiciatis excepturi officia voluptatum iure maxime, ut tempore ab
-            necessitatibus eum totam sit distinctio accusantium. Rem possimus,
-            accusamus accusantium error aspernatur tempore illum? Placeat id
-            facere aspernatur illo corporis minima tenetur facilis? Minus atque
-            cumque quidem voluptatem quaerat asperiores esse, reprehenderit unde
-            accusamus odit dolorum cupiditate enim nemo, provident recusandae
-            quod sequi quis eligendi rem. Tempora aliquam tenetur voluptatum
-            sunt placeat, earum pariatur vel ab, aut voluptate dolorem odit
-            cumque voluptates necessitatibus porro! Voluptate repellendus libero
-            necessitatibus hic repellat modi deleniti vel.
-          </p>
-          <section>
+      {blogs.map((item) => {
+        return (
+          <main key={item.title} className="blog-main">
             <div>
-              {like ? (
-                <FaHeart onClick={() => setLike(!like)} />
-              ) : (
-                <FaRegHeart onClick={() => setLike(!like)} />
-              )}
-              <FaRegComment onClick={comment}/>
+              <h2>{item.title}</h2>
+              <p>{item.body}</p>
+              <section>
+                <div>
+                  {like ? (
+                    <FaHeart onClick={() => setLike(!like)} />
+                  ) : (
+                    <FaRegHeart onClick={() => setLike(!like)} />
+                  )}
+                  <FaRegComment onClick={comment} />
+                </div>
+                <div>
+                  {save ? (
+                    <FaBookmark onClick={() => setSave(!save)} />
+                  ) : (
+                    <FaRegBookmark onClick={() => setSave(!save)} />
+                  )}
+                  <FaShareAlt onClick={handleClick} />
+                </div>
+              </section>
             </div>
-            <div>
-              {save ? (
-                <FaBookmark onClick={() => setSave(!save)} />
-              ) : (
-                <FaRegBookmark onClick={() => setSave(!save)} />
-              )}
-              <FaShareAlt />
-              <Share />
-            </div>
-          </section>
-        </div>
-      </main>
+          </main>
+        );
+      })}
     </>
   );
 }
