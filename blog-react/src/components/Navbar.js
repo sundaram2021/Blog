@@ -6,14 +6,16 @@ import img from '../images/img.jpg'
 import { FaBars } from "react-icons/fa";
 import { FaTimes } from "react-icons/fa";
 import UserImage from './UserImage';
+import { useNavigate } from 'react-router-dom';
 
 
-function Navbar({ user }) {
-
+function Navbar() {
+  const navigate = useNavigate();
   const [links, setLinks] = useState(false);
 
   const logout = () => {
     localStorage.removeItem("token2");
+    navigate("/login");
   }
 
   return (
@@ -30,7 +32,7 @@ function Navbar({ user }) {
               {(localStorage.getItem('token2')) ? <Link onClick={logout} to='/'>Logout</Link> : <Link  to="/login">Login</Link>}
               {!(localStorage.getItem('token2')) ? <Link to='/register'>Register</Link> : ""}
           </div>
-          {<UserImage name={user} /> || <img src={ img } alt='' />  }
+          {<UserImage /> || <img src={ img } alt='' />  }
           <div>
     </div>
         </div>
