@@ -1,0 +1,12 @@
+.user-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  /* background-color: #ccc; */
+  /* background-position: center; */
+}
+
+
