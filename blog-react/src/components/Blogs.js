@@ -7,6 +7,7 @@ import { FaRegComment } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaShareAlt } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
+import Share from './Share';
 
 
 function Blogs() {
@@ -57,6 +58,7 @@ function Blogs() {
                 <FaRegBookmark onClick={() => setSave(!save)} />
               )}
               <FaShareAlt />
+              <Share />
             </div>
           </section>
         </div>

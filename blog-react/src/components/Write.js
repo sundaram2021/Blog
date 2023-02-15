@@ -36,6 +36,7 @@ function Write() {
   }, [quill]);
 
   console.log(value);
+  console.log(title);
   return (
     <>
       <Navbar />
