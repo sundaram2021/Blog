@@ -7,6 +7,7 @@ import { FaRegComment } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaShareAlt } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
+import { v4 as uuidv4 } from "uuid";
 
 function Blogs() {
   const [like, setLike] = useState(false);
@@ -38,6 +39,7 @@ function Blogs() {
     getData();
   }, []);
 
+
   async function getData() {
     const res = await fetch("http://localhost:4000/getdata", {
       headers: {
@@ -46,16 +48,20 @@ function Blogs() {
     });
     if (res.ok) {
       const { myBlogs } = await res.json();
-      setBlogs([...blogs, myBlogs]);
+      // console.log(myBlogs);
+      // console.log("myblogs "+myBlogs);
+      setBlogs(myBlogs);
     }
   }
+
+  // console.log(blogs);
 
   return (
     <>
       <Navbar />
       {blogs.map((item) => {
         return (
-          <main key={item.title} className="blog-main">
+          <main key={uuidv4()} className="blog-main">
             <div>
               <h2>{item.title}</h2>
               <p>{item.body}</p>
