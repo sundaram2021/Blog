@@ -31,7 +31,7 @@ export const getData = async (req, res) => {
   try {
     const models = await BlogModel.find(); // Retrieve all models from the database
     const blogModel = models.map((item) => item);
-    // console.log(todoModel);
+    // console.log(blogModel);
     return res.json({ myBlogs: blogModel }); // Send the models as a JSON response
   } catch (err) {
     res.status(500).json({ message: err.message });
