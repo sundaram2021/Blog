@@ -12,7 +12,7 @@ function Home() {
   const token = JSON.parse(localStorage.getItem("token2"));
 
   async function fetchUser() {
-    const res = await fetch("http://localhost:4000", {
+    const res = await fetch("http://localhost:8999", {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",

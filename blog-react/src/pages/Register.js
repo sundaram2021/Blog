@@ -30,7 +30,7 @@ export default function Register() {
     //   return;
     // }
 
-    const res = await fetch("http://localhost:4000/api/register", {
+    const res = await fetch("http://localhost:8999/api/register", {
       method: "POST",
       body: JSON.stringify(form),
       headers: {
