@@ -47,7 +47,7 @@ function Write() {
   async function handleBlog() {
     console.log(value);
 
-    const res = await fetch("http://localhost:4000/blog", {
+    const res = await fetch("http://localhost:8999/blog", {
       method: "POST",
       body: JSON.stringify(value),
       headers: {
