@@ -37,3 +37,17 @@ export const getData = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+export const getBlogData = async(req, res) => {
+  try{
+    const id = req.params.id;
+    // console.log(id);
+    const blog = await BlogModel.findOne({_id: id });
+    const { _id, title, body } = blog;
+
+    return res.json({title: title, id: _id, body: body, message: "Blog Sent successfully"})
+
+  } catch(e) {
+    res.status(400).json({ messsage: e })
+  }
+}
