@@ -1,10 +1,12 @@
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "../css/searchbar.css";
+import { useNavigate } from "react-router-dom";
 // import SearchIcon from "@material-ui/icons/Search";
 // import CloseIcon from "@material-ui/icons/Close";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function SearchBar() {
+  const navigate = useNavigate();
   const [filteredData, setFilteredData] = useState([]);
   const [wordEntered, setWordEntered] = useState("");
   const [data, setData] = useState([]);
@@ -26,7 +28,7 @@ function SearchBar() {
 
   useEffect(() => {
     getData();
-  }, [wordEntered])
+  }, [wordEntered]);
 
   const handleFilter = (event) => {
     const searchWord = event.target.value;
@@ -46,6 +48,11 @@ function SearchBar() {
     setFilteredData([]);
     setWordEntered("");
   };
+
+  function handleOnClick(id) {
+    console.log(id);
+    navigate(`/blogs/${id}`);
+  }
 
   return (
     <div className="search">
@@ -70,9 +77,16 @@ function SearchBar() {
       </div>
       {filteredData.length !== 0 && (
         <div className="dataResult">
-          {filteredData.slice(0, 15).map((value, key) => {
+          {filteredData.slice(0, 15).map((value) => {
             return (
-              <a className="dataItem" href={value.link} target="_blank" rel="noneferrer" key={value._id}>
+              <a
+                className="dataItem"
+                href={value.link}
+                target="_blank"
+                rel="noneferrer"
+                key={value._id}
+                onClick={() => handleOnClick(value._id)}
+              >
                 <p>{value.title} </p>
               </a>
             );
