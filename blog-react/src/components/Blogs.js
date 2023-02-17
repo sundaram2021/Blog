@@ -41,7 +41,7 @@ function Blogs() {
 
 
   async function getData() {
-    const res = await fetch("http://localhost:4000/getdata", {
+    const res = await fetch("http://localhost:8999/getdata", {
       headers: {
         "Content-Type": "application/json",
       },
