@@ -9,6 +9,7 @@ import { FaShareAlt } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
 
+
 function Blogs() {
   const [like, setLike] = useState(false);
   const [save, setSave] = useState(false);
@@ -22,8 +23,9 @@ function Blogs() {
     );
   };
 
-  const handleClick = () => {
-    const url = window.location.href;
+  const handleClick = (id) => {
+    console.log(id);
+    const url = window.location.href+"/"+id;
     navigator.clipboard
       .writeText(url)
       .then(() => {
@@ -33,6 +35,7 @@ function Blogs() {
         console.error("Failed to copy URL: ", err);
         alert("please copy again");
       });
+      
   };
 
   useEffect(() => {
@@ -80,7 +83,7 @@ function Blogs() {
                   ) : (
                     <FaRegBookmark onClick={() => setSave(!save)} />
                   )}
-                  <FaShareAlt onClick={handleClick} />
+                  <FaShareAlt onClick={() => handleClick(item._id)} />
                 </div>
               </section>
             </div>
