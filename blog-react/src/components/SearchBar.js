@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "../css/searchbar.css";
 import { useNavigate } from "react-router-dom";
-// import SearchIcon from "@material-ui/icons/Search";
-// import CloseIcon from "@material-ui/icons/Close";
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { HiSearch } from "react-icons/hi";
+import { MdClear } from "react-icons/md";
 
 function SearchBar() {
   const navigate = useNavigate();
   const [filteredData, setFilteredData] = useState([]);
   const [wordEntered, setWordEntered] = useState("");
   const [data, setData] = useState([]);
-
+  const [search, setSearch] = useState(false);
 
   async function getData() {
     const res = await fetch("http://localhost:8999/getdata", {
@@ -47,6 +46,7 @@ function SearchBar() {
   const clearInput = () => {
     setFilteredData([]);
     setWordEntered("");
+    setSearch(!search);
   };
 
   function handleOnClick(id) {
@@ -54,9 +54,14 @@ function SearchBar() {
     navigate(`/blogs/${id}`);
   }
 
+  const handleSearch = () => {
+    setSearch(!search);
+  };
+
   return (
     <div className="search">
-      <div className="searchInputs">
+      <HiSearch className="search-bar pointer" onClick={handleSearch} />
+      <div className="searchInputs" id={!search ? "" : "searchInputs"}>
         <input
           type="text"
           placeholder="Enter the topic...."
@@ -64,19 +69,15 @@ function SearchBar() {
           onChange={handleFilter}
         />
         <div className="searchIcon">
-          {filteredData.length === 0 ? (
-            // <SearchBar />
-            // <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" />
-            "x"
+          {!(filteredData.length === 0) ? (
+            <MdClear onClick={clearInput} className="pointer"/>
           ) : (
-            // <CloseIcon id="clearBtn" onClick={clearInput} />
-            // <FontAwesomeIcon icon="fa-solid fa-xmark" id="clearBtn" onClick={clearInput} />
-            <button onClick={clearInput}>Search</button>
+            <HiSearch className="pointer"/>
           )}
         </div>
       </div>
       {filteredData.length !== 0 && (
-        <div className="dataResult">
+        <div className="dataResult" id={!search ? "" : "dataResult"}>
           {filteredData.slice(0, 15).map((value) => {
             return (
               <a
