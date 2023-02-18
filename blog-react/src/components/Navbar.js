@@ -7,6 +7,7 @@ import { FaBars } from "react-icons/fa";
 import { FaTimes } from "react-icons/fa";
 import UserImage from "./UserImage";
 import { useNavigate } from "react-router-dom";
+import SearchBar from "./SearchBar";
 
 
 function Navbar() {
@@ -43,7 +44,10 @@ function Navbar() {
           ) : (
             ""
           )}
+          
         </div>
+        <SearchBar />
+        {/* <button>Serach</button> */}
         {<UserImage /> || <img src={img} alt="" />}
         
       </div>
