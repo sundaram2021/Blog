@@ -5,7 +5,7 @@
 }
 
 .navbar {
-  margin: 0 auto;
+  /* margin: 0 auto; */
   max-width: 80vw;
   display: flex;
   height: 80px;
@@ -28,8 +28,14 @@
   /* text */
 }
 
+.links {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
 .links a {
-  font-size: 20px;
+  font-size: 16px;
   color: black;
   text-decoration: none;
   padding: 2rem;
@@ -62,19 +68,6 @@
 .main-links > img:hover:focus {
   border: 3px solid black;
 }
-
-/* @media only screen and (min-width: 1100px) {
-  .logo{
-    margin: 0 20%;
-  }
-}
-
-@media only screen and (min-width: 900px) {
-  .logo,
-  .main-links > img {
-    margin: 0 10%;
-  }
-} */
 
 @media only screen and (max-width: 660px) {
   .navbar {
@@ -171,3 +164,4 @@
   background-position: center;
   background-size: cover;
 }
+
