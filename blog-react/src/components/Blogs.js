@@ -10,8 +10,8 @@ import { FaBookmark } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
 
 function Blogs() {
-  const [like, setLike] = useState(false);
-  const [save, setSave] = useState({});
+  // const [like, setLike] = useState({ ...false });
+  // const [save, setSave] = useState({});
   const [blogs, setBlogs] = useState([]);
   // const [myArray, setMyArray] = useState({});
 
@@ -23,7 +23,6 @@ function Blogs() {
     );
   };
 
-  console.log(save);
 
   const handleClick = (id) => {
     console.log(id);
@@ -51,13 +50,51 @@ function Blogs() {
     });
     if (res.ok) {
       const { myBlogs } = await res.json();
-      // console.log(myBlogs);
+      console.log(myBlogs);
       // console.log("myblogs "+myBlogs);
       setBlogs(myBlogs);
     }
   }
 
-  console.log(save);
+  // console.log(save);
+
+  async function handleLike(e, id) {
+    e.preventDefault();
+    console.log("liked");
+
+    const res = await fetch("http://localhost:8999/postlike", {
+      method: "POST",
+      body: JSON.stringify(id),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      }
+    })
+
+    if(res.ok){
+      const { data } = await res.json();
+      setBlogs(data)
+    }
+  }
+
+  async function handleSave(e, id) {
+    e.preventDefault();
+    console.log("saved");
+    const res = await fetch("http://localhost:8999/postsave", {
+      method: "POST",
+      body: id,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      }
+    })
+
+    if(res.ok){
+      const { data, message } = await res.json();
+      setBlogs(data)
+      alert(message)
+    }
+  }
 
   return (
     <>
@@ -70,18 +107,18 @@ function Blogs() {
               <p>{item.body}</p>
               <section>
                 <div>
-                  {like ? (
-                    <FaHeart onClick={() => setLike(!like)} />
+                  {item.like ? (
+                    <FaHeart onClick={(e) => handleLike(e, item._id)} />
                   ) : (
-                    <FaRegHeart onClick={() => setLike(!like)} />
+                    <FaRegHeart onClick={(e) => handleLike(e, item._id)} />
                   )}
                   <FaRegComment onClick={comment} />
                 </div>
                 <div>
-                  {save ? (
-                    <FaBookmark onClick={(e) => setSave({[item]: e.target.value})} />
+                  {item.save ? (
+                    <FaBookmark onClick={(e) => handleSave(e, item._id)} />
                   ) : (
-                    <FaRegBookmark onClick={() => setSave(!save)} />
+                    <FaRegBookmark onClick={(e) => handleSave(e, item._id)} />
                   )}
                   <FaShareAlt onClick={() => handleClick(item._id)} />
                 </div>
