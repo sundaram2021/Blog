@@ -1,19 +1,35 @@
-import express from 'express';
-import dotenv from 'dotenv';
+import express from "express";
+import dotenv from "dotenv";
 dotenv.config();
-import Cors from 'cors';
-import connect from './database/Mongodb.js';
-import router from './routes/Register.js'
-import router2 from './routes/Home.js';
+import cors from "cors";
+import connect from "./database/Mongodb.js";
+import router from "./routes/Register.js";
+import router2 from "./routes/Home.js";
 
 const app = express();
 const Port = process.env.Port || 4000;
+const allowedOrigins = ['http://localhost:3000', 'http://example.com'];
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
+
+// Add routes here
+
+app.listen
+
+
 
 app.use(express.json());
-app.use(Cors());
-app.use('/api',router);
+
+app.use("/api", router);
 app.use("/", router2);
 
-connect();
+await connect();
 
-app.listen(Port, () => console.log(`server running on port ${Port}...`))
+app.listen(Port, () => console.log(`server running on port ${Port}...`));
