@@ -40,8 +40,8 @@ export const getData = async (req, res) => {
 
 export const getBlogData = async(req, res) => {
   try{
-    const id = req.params.id;
-    // console.log(id);
+    const id = req.body.id;
+    console.log(id);
     const blog = await BlogModel.findOne({_id: id });
     const { _id, title, body } = blog;
 
@@ -49,5 +49,42 @@ export const getBlogData = async(req, res) => {
 
   } catch(e) {
     res.status(400).json({ messsage: e })
+  }
+}
+
+export const postLikeData = async(req, res) => {
+  try {
+    const id = req.body.id;
+    console.log(id);
+    const blog = await BlogModel.findOne({_id: id});
+    if(!blog) {
+      return res.json({ message : "Blog not found in server" })
+    }
+
+    const myblog = await BlogModel.findByIdAndUpdate(id, { like: true });
+
+    return res.json({ data: myblog })
+
+  } catch (e) {
+    console.log(e);
+    res.status(400).json({ message: e })
+  }
+}
+export const postSaveData = async(req, res) => {
+  try {
+    const id = JSON.parse(req.body.id);
+    console.log(id);
+    const blog = await BlogModel.findOne({_id: id});
+    if(!blog) {
+      return res.json({ message : "Blog not found in server" })
+    }
+
+    const myblog = await BlogModel.findByIdAndUpdate(id, { save: true });
+
+    return res.json({ data: myblog })
+
+  } catch (e) {
+    console.log(e);
+    res.json({ message: e })
   }
 }
