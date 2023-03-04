@@ -10,19 +10,9 @@ import { FaBookmark } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
 
 function Blogs() {
-  // const [like, setLike] = useState({ ...false });
-  // const [save, setSave] = useState({});
   const [blogs, setBlogs] = useState([]);
-  // const [myArray, setMyArray] = useState({});
-
-  const comment = () => {
-    return (
-      <div>
-        <h1>Hello div</h1>
-      </div>
-    );
-  };
-
+  const [comment, setComment] = useState(false);
+  const [commentValue, setCommentValue] = useState();
 
   const handleClick = (id) => {
     console.log(id);
@@ -60,41 +50,109 @@ function Blogs() {
 
   async function handleLike(e, id) {
     e.preventDefault();
+    console.log(id);
+    // console.log("liked");
+
+    const obj = { _id: id };
+    const json = JSON.stringify(obj);
     console.log("liked");
+    console.log("json = " + json);
 
     const res = await fetch("http://localhost:8999/postlike", {
       method: "POST",
-      body: JSON.stringify(id),
+      body: json,
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-      }
-    })
+      },
+    });
 
-    if(res.ok){
-      const { data } = await res.json();
-      setBlogs(data)
+    if (res.ok) {
+      getData();
+      // alert(message)
     }
   }
 
   async function handleSave(e, id) {
     e.preventDefault();
+    console.log(id);
+    const obj = { _id: id };
+    const json = JSON.stringify(obj);
     console.log("saved");
+
+    console.log("json = " + json);
+
     const res = await fetch("http://localhost:8999/postsave", {
       method: "POST",
-      body: id,
+      body: json,
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-      }
-    })
+      },
+    });
 
-    if(res.ok){
-      const { data, message } = await res.json();
-      setBlogs(data)
-      alert(message)
+    if (res.ok) {
+      getData();
+      // alert(message)
     }
   }
+
+  const publishComment = async (e, id) => {
+    e.preventDefault();
+    const obj = { _id: id, comment: commentValue };
+    const json = JSON.stringify(obj);
+    const res = await fetch("http://localhost:8999/postcomment", {
+      method: "POST",
+      body: json,
+      headers: {
+        "Content-Type": "application/json",
+        Acccept: "application/json",
+      },
+    });
+    if (res.ok) {
+      getData();
+      // alert(message)
+    }
+  };
+
+  const handleComment = async(idx) => {
+    setComment(!comment);
+    const obj = { _id: idx };
+    const json = JSON.stringify(obj);
+
+    const res = await fetch("http://localhost:8999/postcomment", {
+      method: "POST",
+      body: json,
+      headers : {
+        "Content-Type": "application/json",
+      },
+    })
+
+    if (res.ok) {
+      getData();
+      // alert(message)
+    }
+    
+  };
+
+  const closeComment = async(idx) => {
+    setComment(!comment);
+    const obj = { _id: idx };
+    const json = JSON.stringify(obj);
+
+    const res = await fetch("http://localhost:8999/postcomment", {
+      body: json,
+      headers : {
+        "Content-Type": "application/json",
+      },
+    })
+
+    if (res.ok) {
+      getData();
+      // alert(message)
+    }
+    
+  };
 
   return (
     <>
@@ -112,7 +170,7 @@ function Blogs() {
                   ) : (
                     <FaRegHeart onClick={(e) => handleLike(e, item._id)} />
                   )}
-                  <FaRegComment onClick={comment} />
+                  <FaRegComment onClick={() => handleComment(item._id)} />
                 </div>
                 <div>
                   {item.save ? (
@@ -123,6 +181,18 @@ function Blogs() {
                   <FaShareAlt onClick={() => handleClick(item._id)} />
                 </div>
               </section>
+              {item.isChecked && (
+                <section className={"comment"}>
+                  <span onClick={() => closeComment(item._id)}>x</span>
+                  <input
+                    type="text"
+                    onChange={(e) => setCommentValue(e.target.value)}
+                  />
+                  <button onClick={(e) => publishComment(e, item._id)}>
+                    publish
+                  </button>
+                </section>
+              )}
             </div>
           </main>
         );
