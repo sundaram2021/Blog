@@ -13,6 +13,13 @@ const BlogSchema = new Schema({
         type: Boolean, 
         default: false,
     },
+    comment: {
+        type: String,
+    },
+    isChecked: {
+        type: Boolean,
+        default: false,
+    },
 })
 
 export default new mongoose.model("Blogs", BlogSchema);
