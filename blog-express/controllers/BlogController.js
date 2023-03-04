@@ -38,52 +38,82 @@ export const getData = async (req, res) => {
   }
 };
 
-export const getBlogData = async(req, res) => {
-  try{
+export const getBlogData = async (req, res) => {
+  try {
     const id = req.body.id;
     console.log(id);
-    const blog = await BlogModel.findOne({_id: id });
+    const blog = await BlogModel.findOne({ _id: id });
     const { _id, title, body } = blog;
 
-    return res.json({title: title, id: _id, body: body, message: "Blog Sent successfully"})
-
-  } catch(e) {
-    res.status(400).json({ messsage: e })
+    return res.json({
+      title: title,
+      id: _id,
+      body: body,
+      message: "Blog Sent successfully",
+    });
+  } catch (e) {
+    res.status(400).json({ messsage: e });
   }
-}
+};
 
-export const postLikeData = async(req, res) => {
+export const postLikeData = async (req, res) => {
   try {
-    const id = req.body.id;
-    console.log(id);
-    const blog = await BlogModel.findOne({_id: id});
-    if(!blog) {
-      return res.json({ message : "Blog not found in server" })
+    const { _id } = req.body;
+    // console.log(json);
+    const blog = await BlogModel.findOne({ _id });
+    if (!blog) {
+      return res.json({ message: "Blog not found in server" });
     }
 
-    const myblog = await BlogModel.findByIdAndUpdate(id, { like: true });
+    const updatedBlog = await BlogModel.findByIdAndUpdate(_id, { like: !blog.like }, { new : true });
 
-    return res.json({ data: myblog })
-
+    return res.json(updatedBlog);
   } catch (e) {
     console.log(e);
-    res.status(400).json({ message: e })
+    res.status(400).json({ message: e });
   }
-}
-export const postSaveData = async(req, res) => {
+};
+export const postSaveData = async (req, res) => {
   try {
-    const id = JSON.parse(req.body.id);
-    console.log(id);
-    const blog = await BlogModel.findOne({_id: id});
-    if(!blog) {
-      return res.json({ message : "Blog not found in server" })
+    // const id = JSON.parse(req.body.id);4
+    const { _id } = req.body;
+    // console.log(json);
+    const blog = await BlogModel.findOne({ _id });
+    if (!blog) {
+      return res.json({ message: "Blog not found in server" });
     }
 
-    const myblog = await BlogModel.findByIdAndUpdate(id, { save: true });
+    const updatedBlog = await BlogModel.findByIdAndUpdate(_id, { save: !blog.save }, { new : true });
 
-    return res.json({ data: myblog })
-
+    return res.json(updatedBlog);
   } catch (e) {
+    console.log(e);
+    res.json({ message: e });
+  }
+};
+
+
+
+export const postComment = async (req, res) => {
+  try {
+    const { _id, comment="" } = req.body;
+
+    const blog = await BlogModel.findOne({ _id })
+
+    const updatedBlog = await BlogModel.findByIdAndUpdate(
+      _id,
+      { comment: comment },
+      { new: true, isChecked: !blog.isChecked },
+      function(err, updatedBlog) {
+        if (err) {
+          // handle error
+          console.log("Error = "+err);
+        }
+        res.json(updatedBlog)
+      }
+    );
+
+  } catch(e) {
     console.log(e);
     res.json({ message: e })
   }
