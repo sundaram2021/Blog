@@ -1,54 +1,100 @@
 .blog-main {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    row-gap: 2rem;
-    align-items: center;
-    width: 60%;
-    margin: 0 auto;
-    margin-top: 50px; 
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  row-gap: 2rem;
+  align-items: center;
+  width: 60%;
+  margin: 0 auto;
+  margin-top: 50px;
 }
 
 .blog-main > div {
-    background-color: rgb(255, 158, 158, 0.2);
-    border-radius: 20px;
-    padding: 10px;
+  background-color: rgb(255, 158, 158, 0.2);
+  border-radius: 20px;
+  padding: 10px;
+  position: relative;
 }
 
-.blog-main > div >  h2 {
-    text-align: center;
-    font-weight: 700;
-    margin-bottom: 20px;
+.blog-main > div > h2 {
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 20px;
 }
 
-.blog-main >div > p {
-    letter-spacing: .5px;
+.blog-main > div > p {
+  letter-spacing: 0.5px;
 }
 
-@media only screen and (max-width: 900px) and (min-width: 600px){
-    .blog-main {
-        width: 80%;
-    }
+@media only screen and (max-width: 900px) and (min-width: 600px) {
+  .blog-main {
+    width: 80%;
+  }
 }
-@media only screen and (max-width: 600px){
-    .blog-main {
-        width: 90%;
-    }
+@media only screen and (max-width: 600px) {
+  .blog-main {
+    width: 90%;
+  }
 }
-
 
 .blog-main section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .blog-main section div svg {
-    cursor: pointer;
-    font-size: 1.5rem;
-    margin: 10px 1.2rem;
+  cursor: pointer;
+  font-size: 1.5rem;
+  margin: 10px 1.2rem;
 }
 
-.blog-main section div{
-    width: 50%;
+.blog-main section div {
+  width: 50%;
 }
+
+.comment {
+  position: absolute;
+  height: 15vh;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba( 255, 158, 158, 0.25 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 2px );
+  -webkit-backdrop-filter: blur( 2px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.4 );
+  padding: 2rem;
+  /* display: none; */
+}
+
+.comment input {
+    width: 180px;
+    padding: .4rem;
+    border: none;
+    border-radius: 10px;
+}
+
+.comment button {
+    width: 180px;
+    padding: .4rem;
+    border-radius: 10px;
+    border: none;
+    background: rgba( 255, 158, 158, 0.5 );
+    cursor: pointer;
+    margin-top: .5rem;
+}
+
+.comment span {
+    position: absolute;
+    display: inline;
+    top: 0;
+    right: 0;
+    margin-right: .4rem;
+    cursor: pointer;
+    /* display: none; */
+}
+
