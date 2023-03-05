@@ -5,7 +5,7 @@
 }
 
 .navbar {
-  /* margin: 0 auto; */
+  margin: 0 auto;
   max-width: 80vw;
   display: flex;
   height: 80px;
@@ -155,6 +155,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+  position: relative;
 }
 
 .main-links > img {
@@ -165,3 +166,16 @@
   background-size: cover;
 }
 
+.dropdown {
+  background-color: rgb(255, 158, 158, 0.3);
+  padding: 1.2rem;
+  border-radius: 10px;
+  position: absolute;
+  top: 3.9rem;
+  right: -20px;
+  z-index: 9999;
+}
+
+.dropdown:hover {
+  text-decoration: underline;
+}
