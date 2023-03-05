@@ -2,6 +2,16 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose
 
+
+const commentSchema = new Schema({
+    text: String,
+    author: String,
+    createdAt: {
+        type: Date,
+        default: Date.now(),
+    }
+})
+
 const BlogSchema = new Schema({
     title: String,
     body: String,
@@ -13,9 +23,7 @@ const BlogSchema = new Schema({
         type: Boolean, 
         default: false,
     },
-    comment: {
-        type: String,
-    },
+    comment: [commentSchema],
     isChecked: {
         type: Boolean,
         default: false,
