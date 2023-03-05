@@ -19,12 +19,6 @@ app.use(cors({
   }
 }));
 
-// Add routes here
-
-app.listen
-
-
-
 app.use(express.json());
 
 app.use("/api", router);
