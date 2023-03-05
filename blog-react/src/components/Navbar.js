@@ -8,16 +8,22 @@ import { FaTimes } from "react-icons/fa";
 import UserImage from "./UserImage";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
-
+import { IoMdArrowDropdown } from "react-icons/io";
 
 function Navbar() {
   const navigate = useNavigate();
   const [links, setLinks] = useState(false);
+  const [showDropdown, setShowDropDown] = useState(false);
+  const userName = localStorage.getItem("firstName")
 
   const logout = () => {
     localStorage.removeItem("token2");
     navigate("/login");
   };
+
+  const handleDropdown = () => {
+    setShowDropDown(!showDropdown)
+  }
 
   return (
     <nav className="navbar">
@@ -49,7 +55,14 @@ function Navbar() {
         <SearchBar />
         {/* <button>Serach</button> */}
         {<UserImage /> || <img src={img} alt="" />}
-        
+        <IoMdArrowDropdown style={{ cursor: "pointer" }} onClick={handleDropdown} />
+         {
+          showDropdown && (
+            <div className="dropdown">
+              <Link to={`/${userName}/savedArticles`}>Saved articles</Link>
+            </div>
+          )
+         }
       </div>
     </nav>
   );
