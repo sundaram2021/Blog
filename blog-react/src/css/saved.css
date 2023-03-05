@@ -1,0 +1,25 @@
+.h2 {
+    text-align: center;
+    margin-top: 1.2rem;
+}
+
+.saved {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: fit-content;
+    margin: 0 15%;
+}
+
+.saved > div{
+    background-color: rgb(255,158,158, 0.3);
+    margin: 1.2rem 2rem;
+    padding: 1.2rem 2rem;
+    border-radius: 20px;
+}
+
+.saved > div > h2 {
+    text-align: center;
+}
