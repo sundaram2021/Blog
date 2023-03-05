@@ -40,8 +40,8 @@ export const getData = async (req, res) => {
 
 export const getBlogData = async (req, res) => {
   try {
-    const id = req.body.id;
-    console.log(id);
+    const id = req.params.id;
+    // console.log(id);
     const blog = await BlogModel.findOne({ _id: id });
     const { _id, title, body } = blog;
 
@@ -98,20 +98,18 @@ export const postComment = async (req, res) => {
   try {
     const { _id, comment="" } = req.body;
 
+    console.log(comment);
+
     const blog = await BlogModel.findOne({ _id })
 
-    const updatedBlog = await BlogModel.findByIdAndUpdate(
-      _id,
-      { comment: comment },
-      { new: true, isChecked: !blog.isChecked },
-      function(err, updatedBlog) {
-        if (err) {
-          // handle error
-          console.log("Error = "+err);
-        }
-        res.json(updatedBlog)
-      }
-    );
+    if (!blog) {
+      // return an error response if no blog found with the given _id
+      return res.status(404).json({ message: 'Blog not found' });
+    }
+
+    const updatedBlog = await BlogModel.updateMany({ _id: _id }, { $set : { comment : [{ text: comment }], isChecked: !blog.isChecked} });
+    // await BlogModel.save();
+    return res.json(updatedBlog);
 
   } catch(e) {
     console.log(e);
