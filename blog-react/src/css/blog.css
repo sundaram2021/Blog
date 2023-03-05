@@ -61,40 +61,92 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba( 255, 158, 158, 0.25 );
-  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-  backdrop-filter: blur( 2px );
-  -webkit-backdrop-filter: blur( 2px );
+  background: rgba(255, 158, 158, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   border-radius: 10px;
-  border: 1px solid rgba( 255, 255, 255, 0.4 );
+  border: 1px solid rgba(255, 255, 255, 0.4);
   padding: 2rem;
   /* display: none; */
 }
 
 .comment input {
-    width: 180px;
-    padding: .4rem;
-    border: none;
-    border-radius: 10px;
+  width: 180px;
+  padding: 0.4rem;
+  border: none;
+  border-radius: 10px;
 }
 
 .comment button {
-    width: 180px;
-    padding: .4rem;
-    border-radius: 10px;
-    border: none;
-    background: rgba( 255, 158, 158, 0.5 );
-    cursor: pointer;
-    margin-top: .5rem;
+  width: 180px;
+  padding: 0.4rem;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255, 158, 158, 0.5);
+  cursor: pointer;
+  margin-top: 0.5rem;
 }
 
 .comment span {
-    position: absolute;
-    display: inline;
-    top: 0;
-    right: 0;
-    margin-right: .4rem;
-    cursor: pointer;
-    /* display: none; */
+  position: absolute;
+  display: inline;
+  top: 0;
+  right: 0;
+  margin-right: 0.4rem;
+  cursor: pointer;
+  /* display: none; */
 }
 
+.comment-section {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.comment-section > h3 {
+  position: absolute;
+  left: 0;
+}
+
+/* .comment-section-div {
+  position: absolute;
+  top: 4px;
+} */
+
+.comment-section-div {
+  margin-top: 2.1rem;
+  margin-left: -15rem;
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  background-color: rgb(241, 139, 139, 0.2);
+  border-radius: 10px;
+  padding: 1.2rem;
+  width: 100%;
+}
+
+.comment-section-img {
+  margin-right: 4px;
+  cursor: pointer;
+}
+
+.comment-section-nested-div {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.date {
+  font-size: 8px;
+  font-weight: 700;
+  opacity: 0.5;
+  color: #5c5b5b;
+}
+
+.actual-comment {
+  font-size: 20px;
+  font-weight: 300;
+}
