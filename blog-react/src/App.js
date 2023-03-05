@@ -6,8 +6,12 @@ import Write from "./components/Write";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Blog from "./components/Blog";
+import Saved from "./components/Saved";
 
 function App() {
+
+  const username = localStorage.getItem("firstName")
+
   return (
     <>
       <Routes>
@@ -17,6 +21,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/blogs/:id" element={<Blog />} />
+        <Route path={`/${username}/savedArticles`} element={<Saved />} />
       </Routes>
     </>
   );
