@@ -54,6 +54,7 @@ a {
   height: 30px;
   /* padding: 1.2rem; */
   text-align: center;
+  cursor: pointer;
 }
 
 .dataResult > a:hover {
@@ -78,6 +79,8 @@ a {
   display: block;
   right: 10px;
 }
+
+
 
 @media only screen and (max-width: 660px) {
   .search-bar {
