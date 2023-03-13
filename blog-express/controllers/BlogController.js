@@ -96,7 +96,9 @@ export const postSaveData = async (req, res) => {
 
 export const postComment = async (req, res) => {
   try {
-    const { _id, comment="" } = req.body;
+    const { _id, comment="", firstname } = req.body;
+
+    console.log(firstname);
 
     console.log(comment);
 
@@ -107,7 +109,7 @@ export const postComment = async (req, res) => {
       return res.status(404).json({ message: 'Blog not found' });
     }
 
-    const updatedBlog = await BlogModel.updateMany({ _id: _id }, { $set : { comment : [{ text: comment }], isChecked: !blog.isChecked} });
+    const updatedBlog = await BlogModel.updateMany({ _id: _id }, { $set : { comment : [...blog.comment, { text: comment, author: firstname }], isChecked: !blog.isChecked} });
     // await BlogModel.save();
     return res.json(updatedBlog);
 
