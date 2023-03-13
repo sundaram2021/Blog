@@ -100,8 +100,28 @@ function Blogs() {
 
   const publishComment = async (e, id) => {
     e.preventDefault();
-    const obj = { _id: id, comment: c };
+    
+
+
+    const token = JSON.parse(localStorage.getItem("token2"));
+
+    const res1 = await fetch("http://localhost:8999", {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "x-access-token": token,
+      },
+    });
+
+    const { firstName } = await res1.json();
+
+    if(c === ""){
+      return <h1>Please enter some text</h1>
+    }
+
+    const obj = { _id: id, comment: c, firstname: firstName };
     const json = JSON.stringify(obj);
+
     const res = await fetch("http://localhost:8999/postcomment", {
       method: "POST",
       body: json,
@@ -131,15 +151,21 @@ function Blogs() {
 
     if (res.ok) {
       getData();
-      // alert(message)
+      // alert(message)  
     }
   };
 
   const closeComment = async (idx) => {
+    
+
     const obj = { _id: idx };
     const json = JSON.stringify(obj);
 
-    const res = await fetch("http://localhost:8999/postcomment", {
+    console.log("json", json);
+
+    console.log("id : ", idx);
+
+    await fetch("http://localhost:8999/postcomment", {
       method: "POST",
       body: json,
       headers: {
@@ -147,10 +173,7 @@ function Blogs() {
       },
     });
 
-    if (res.ok) {
-      getData();
-      // alert(message)
-    }
+    await getData();
   };
 
   const handleCommentChange = (e, idx) => {
@@ -161,6 +184,8 @@ function Blogs() {
 
     c = e.target.value;
   };
+
+  console.log(blogs);
 
   return (
     <>
@@ -201,18 +226,16 @@ function Blogs() {
                   </button>
                 </section>
               )}
-              
+              <h3>Comments...</h3>
               {item.comment.map((cmt) => {
-                if (!cmt.text || cmt.text.trim() === "") {
-                  return null;
-                }
                 return (
                   <section className="comment-section" key={cmt.createdAt}>
-                    <h3>Comments...</h3>
+                    
                     <div className="comment-section-div">
                       <UserImage
                         className="comment-section-img"
                         title={cmt.author}
+                        userName={cmt.author}
                       />
                       <div className="comment-section-nested-div">
                         <p className="date">published at {cmt.createdAt}</p>
