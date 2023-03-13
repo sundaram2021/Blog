@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "../App.css";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import img from "../images/img.jpg";
 import { FaBars } from "react-icons/fa";
@@ -11,10 +10,11 @@ import SearchBar from "./SearchBar";
 import { IoMdArrowDropdown } from "react-icons/io";
 
 function Navbar() {
+  const [userName, setUserName] = useState();
   const navigate = useNavigate();
   const [links, setLinks] = useState(false);
   const [showDropdown, setShowDropDown] = useState(false);
-  const userName = localStorage.getItem("firstName")
+  // const userName = localStorage.getItem("firstName")
 
   const logout = () => {
     localStorage.removeItem("token2");
@@ -24,6 +24,29 @@ function Navbar() {
   const handleDropdown = () => {
     setShowDropDown(!showDropdown)
   }
+
+
+
+  const getUser = useCallback(async (token) => {
+    const res = await fetch("http://localhost:8999", {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "x-access-token": token,
+      },
+    });
+
+    if (res.ok) {
+      const { firstName } = await res.json();
+      await setUserName(firstName);
+      // localStorage.setItem("firstName", firstName);
+    }
+  }, []);
+
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("token2")); // set your token here
+    getUser(token);
+  }, [getUser]);
 
   return (
     <nav className="navbar">
@@ -54,7 +77,7 @@ function Navbar() {
         </div>
         <SearchBar />
         {/* <button>Serach</button> */}
-        {<UserImage /> || <img src={img} alt="" />}
+        {<UserImage userName={userName} /> || <img src={img} alt="" />}
         <IoMdArrowDropdown style={{ cursor: "pointer" }} onClick={handleDropdown} />
          {
           showDropdown && (
