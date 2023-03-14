@@ -1,22 +1,25 @@
 import BlogModel from "../Models/BlogModel.js";
 
 export const getBlog = async (req, res) => {
-  const { title, body } = req.body;
+  const { title, body, firstname } = req.body;
+  console.log(req.body);
+
+  console.log(title);
+  console.log(body);
 
   if (!title || !body) {
     return res.status(204).json("Invalid Input");
   }
 
   const blogExist = await BlogModel.findOne({ title });
-
+  if (blogExist) {
+    return res.status(403).json("Blog Already exist");
+  }
   try {
-    if (blogExist) {
-      return res.status(403).json("Blog Already exist");
-    }
-
     const blog = new BlogModel({
       title,
       body,
+      createdBy: firstname,
     });
 
     await blog.save();
@@ -65,7 +68,11 @@ export const postLikeData = async (req, res) => {
       return res.json({ message: "Blog not found in server" });
     }
 
-    const updatedBlog = await BlogModel.findByIdAndUpdate(_id, { like: !blog.like }, { new : true });
+    const updatedBlog = await BlogModel.findByIdAndUpdate(
+      _id,
+      { like: !blog.like },
+      { new: true }
+    );
 
     return res.json(updatedBlog);
   } catch (e) {
@@ -83,7 +90,11 @@ export const postSaveData = async (req, res) => {
       return res.json({ message: "Blog not found in server" });
     }
 
-    const updatedBlog = await BlogModel.findByIdAndUpdate(_id, { save: !blog.save }, { new : true });
+    const updatedBlog = await BlogModel.findByIdAndUpdate(
+      _id,
+      { save: !blog.save },
+      { new: true }
+    );
 
     return res.json(updatedBlog);
   } catch (e) {
@@ -92,29 +103,34 @@ export const postSaveData = async (req, res) => {
   }
 };
 
-
-
 export const postComment = async (req, res) => {
   try {
-    const { _id, comment="", firstname } = req.body;
+    const { _id, comment = "", firstname } = req.body;
 
     console.log(firstname);
 
     console.log(comment);
 
-    const blog = await BlogModel.findOne({ _id })
+    const blog = await BlogModel.findOne({ _id });
 
     if (!blog) {
       // return an error response if no blog found with the given _id
-      return res.status(404).json({ message: 'Blog not found' });
+      return res.status(404).json({ message: "Blog not found" });
     }
 
-    const updatedBlog = await BlogModel.updateMany({ _id: _id }, { $set : { comment : [...blog.comment, { text: comment, author: firstname }], isChecked: !blog.isChecked} });
+    const updatedBlog = await BlogModel.updateMany(
+      { _id: _id },
+      {
+        $set: {
+          comment: [...blog.comment, { text: comment, author: firstname }],
+          isChecked: !blog.isChecked,
+        },
+      }
+    );
     // await BlogModel.save();
     return res.json(updatedBlog);
-
-  } catch(e) {
+  } catch (e) {
     console.log(e);
-    res.json({ message: e })
+    res.json({ message: e });
   }
-}
+};
