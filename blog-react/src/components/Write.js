@@ -11,6 +11,7 @@ function Write() {
   const [value, setValue] = useState({
     title: "",
     body: "",
+    firstname: "",
   });
 
   const { quill, quillRef } = useQuill({
@@ -46,14 +47,34 @@ function Write() {
 
   async function handleBlog() {
     console.log(value);
+    const token = JSON.parse(localStorage.getItem("token2"));
+
+    const res1 = await fetch("http://localhost:8999", {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "x-access-token": token,
+      },
+    });
+
+    const { firstName } = await res1.json();
+
+    setValue({...value, firstname: firstName})
+
+
+    console.log(firstName);
+    // const obj = { _id: idx };
+    const json = JSON.stringify(value);
 
     const res = await fetch("http://localhost:8999/blog", {
       method: "POST",
-      body: JSON.stringify(value),
+      body: json,
       headers: {
         "Content-Type": "application/json",
       },
     });
+
+    console.log("res ",res);
     if (res.ok) {
       setValue("");
       alert("Blog is Posted");
