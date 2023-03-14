@@ -19,8 +19,13 @@ function Saved() {
       const { myBlogs } = await res.json();
       console.log(myBlogs);
       // console.log("myblogs "+myBlogs);
-      setSavedBlogs(myBlogs);
+      const filteredBlogs = myBlogs.filter((blg) => blg.save === true)
+      setSavedBlogs(filteredBlogs);
     }
+  }
+
+  if(savedBlogs === "") {
+    return <h1>You does not have any saved blogs</h1>
   }
 
   return (
