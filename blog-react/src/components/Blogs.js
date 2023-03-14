@@ -13,6 +13,7 @@ import UserImage from "./UserImage";
 function Blogs() {
   let c;
   const [blogs, setBlogs] = useState([]);
+  const [blogAuthor, setBlogAuthor] = useState();
   // const [commentValue, setCommentValue] = useState();
 
   const handleClick = (id) => {
@@ -100,8 +101,6 @@ function Blogs() {
 
   const publishComment = async (e, id) => {
     e.preventDefault();
-    
-
 
     const token = JSON.parse(localStorage.getItem("token2"));
 
@@ -151,7 +150,8 @@ function Blogs() {
 
     if (res.ok) {
       getData();
-      // alert(message)  
+      // alert(message) 
+       
     }
   };
 
@@ -187,6 +187,27 @@ function Blogs() {
 
   console.log(blogs);
 
+  const getBlogAuthor = async() => {
+
+    const token = JSON.parse(localStorage.getItem("token2"));
+
+    const res1 = await fetch("http://localhost:8999", {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "x-access-token": token,
+      },
+    });
+
+    const { firstName } = await res1.json();
+    setBlogAuthor(firstName)
+    
+  }
+
+  useEffect(() => {
+    getBlogAuthor();
+  }, [])
+
   return (
     <>
       <Navbar />
@@ -194,7 +215,10 @@ function Blogs() {
         return (
           <main key={uuidv4()} className="blog-main">
             <div>
-              <h2>{item.title}</h2>
+              <div className="head">
+                <UserImage userName={blogAuthor}/>
+                <h2>{item.title}</h2>
+              </div>
               <p>{item.body}</p>
               <section>
                 <div>
@@ -228,8 +252,9 @@ function Blogs() {
               )}
               <h3>Comments...</h3>
               {item.comment.map((cmt) => {
+                if(cmt.text === "") return null;
                 return (
-                  <section className="comment-section" key={cmt.createdAt}>
+                  <section className="comment-section" key={cmt._id}>
                     
                     <div className="comment-section-div">
                       <UserImage
