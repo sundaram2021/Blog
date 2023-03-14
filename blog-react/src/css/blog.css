@@ -150,3 +150,14 @@
   font-size: 20px;
   font-weight: 300;
 }
+
+
+.head {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.head > h2 {
+  margin-left: .5rem;
+}
