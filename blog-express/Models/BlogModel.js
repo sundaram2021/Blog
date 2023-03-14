@@ -28,6 +28,7 @@ const BlogSchema = new Schema({
         type: Boolean,
         default: false,
     },
+    createdBy: String,
 })
 
 export default new mongoose.model("Blogs", BlogSchema);
