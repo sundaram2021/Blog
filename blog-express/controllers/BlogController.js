@@ -1,13 +1,14 @@
 import BlogModel from "../Models/BlogModel.js";
+import RegisterModel from "../Models/RegisterModel.js";
 
 export const getBlog = async (req, res) => {
   const { title, body, firstname } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
 
-  console.log(title);
-  console.log(body);
+  // console.log(title);
+  // console.log(body);
 
-  if (!title || !body) {
+  if (!title || !body || !firstname) {
     return res.status(204).json("Invalid Input");
   }
 
@@ -16,16 +17,19 @@ export const getBlog = async (req, res) => {
     return res.status(403).json("Blog Already exist");
   }
   try {
-    const blog = new BlogModel({
+    await BlogModel.create({
       title,
       body,
       createdBy: firstname,
+      like: false,
+      save: false,
+      comment: [],
+      isChecked: false,
     });
-
-    await blog.save();
 
     return res.status(201).json({ message: "Blog posted" });
   } catch (error) {
+    console.log(error);
     return res.status(400).json(error);
   }
 };
