@@ -216,7 +216,7 @@ function Blogs() {
           <main key={uuidv4()} className="blog-main">
             <div>
               <div className="head">
-                <UserImage userName={blogAuthor}/>
+                <UserImage userName={blogAuthor} />
                 <h2>{item.title}</h2>
               </div>
               <p>{item.body}</p>
