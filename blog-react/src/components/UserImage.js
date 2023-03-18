@@ -16,9 +16,10 @@ const UserImage = ({userName}) => {
   };
 
   // const firstName = "John";
+  const hex = '000000'
   const firstInitial = userName ? userName.charAt(0).toUpperCase() : "";
-  const randomHexColor = Math.floor(Math.random() * 16777215).toString(16); // generates a random hexadecimal color code
-  const url = `https://dummyimage.com/40x50/${randomHexColor}/fff.png&text=${firstInitial}`;
+  // const randomHexColor = Math.floor(Math.random() * 16777215).toString(16); // generates a random hexadecimal color code
+  const url = `https://dummyimage.com/40x50/${hex}/fff.png&text=${firstInitial}`;
 
   return (
     <img className="user-image" style={styles} src={url !== "" ? url : img} alt='' />
