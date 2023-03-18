@@ -22,7 +22,7 @@ function App() {
   
     if (res.ok) {
       const { firstName } = await res.json();
-      await setUserName(firstName);
+      setUserName(firstName);
       // localStorage.setItem("firstName", firstName);
     }
   }, []);
