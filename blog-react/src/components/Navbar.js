@@ -83,6 +83,7 @@ function Navbar() {
           showDropdown && (
             <div className="dropdown">
               <Link to={`/${userName}/savedArticles`}>Saved articles</Link>
+              <Link to='/yourarticles'>Your articles</Link>
             </div>
           )
          }
