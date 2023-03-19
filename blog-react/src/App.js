@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Blog from "./components/Blog";
 import Saved from "./components/Saved";
+import YourArticles from "./components/YourArticles";
 
 function App() {
   const [userName, setUserName] = useState();
@@ -43,6 +44,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/blogs/:id" element={<Blog />} />
         <Route path={`/${userName}/savedArticles`} element={<Saved />} />
+        <Route path='/yourarticles' element={<YourArticles />} />
       </Routes>
     </>
   );
