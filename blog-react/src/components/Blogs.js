@@ -9,12 +9,11 @@ import { FaShareAlt } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
 import UserImage from "./UserImage";
+import { AiFillDelete } from 'react-icons/ai'
 
 function Blogs() {
   let c;
   const [blogs, setBlogs] = useState([]);
-  const [blogAuthor, setBlogAuthor] = useState();
-  // const [commentValue, setCommentValue] = useState();
 
   const handleClick = (id) => {
     console.log(id);
@@ -187,26 +186,23 @@ function Blogs() {
 
   console.log(blogs);
 
-  const getBlogAuthor = async() => {
+  const deleteComment = async(e, blogId, commentId) => {
+    e.preventDefault();
 
-    const token = JSON.parse(localStorage.getItem("token2"));
+    console.log("blogid", blogId, 'commentId',commentId);
 
-    const res1 = await fetch("http://localhost:8999", {
+    const res = await fetch(`http://localhost:8999/api/blog/${blogId}/comment/${commentId}`, {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json",
-        "x-access-token": token,
-      },
-    });
+      }
+    })
 
-    const { firstName } = await res1.json();
-    setBlogAuthor(firstName)
-    
+    const { message }  = await res.json();
+
+    alert(message);
+    getData();
   }
-
-  useEffect(() => {
-    getBlogAuthor();
-  }, [])
 
   return (
     <>
@@ -216,7 +212,7 @@ function Blogs() {
           <main key={uuidv4()} className="blog-main">
             <div>
               <div className="head">
-                <UserImage userName={blogAuthor} />
+                <UserImage userName={item.createdBy} />
                 <h2>{item.title}</h2>
               </div>
               <p>{item.body}</p>
@@ -262,11 +258,15 @@ function Blogs() {
                         title={cmt.author}
                         userName={cmt.author}
                       />
+                      
                       <div className="comment-section-nested-div">
                         <p className="date">published at {cmt.createdAt}</p>
                         <p className="actual-comment">{cmt.text}</p>
+                        
                       </div>
+                      <AiFillDelete onClick={(e) => deleteComment(e, item._id, cmt._id)} style={{cursor: "pointer"}} />
                     </div>
+                    
                   </section>
                 );
               })}
