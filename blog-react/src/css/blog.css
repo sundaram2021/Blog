@@ -120,6 +120,7 @@
   margin-top: 2.1rem;
   margin-left: -15rem;
   display: flex;
+  justify-content: space-around;
   align-items: center;
   /* justify-content: space-between; */
   background-color: rgb(241, 139, 139, 0.2);
