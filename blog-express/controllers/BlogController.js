@@ -1,5 +1,8 @@
 import BlogModel from "../Models/BlogModel.js";
 import RegisterModel from "../Models/RegisterModel.js";
+import jwt from "jsonwebtoken";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 export const getBlog = async (req, res) => {
   const { title, body, firstname } = req.body;
@@ -136,5 +139,57 @@ export const postComment = async (req, res) => {
   } catch (e) {
     console.log(e);
     res.json({ message: e });
+  }
+};
+
+export const getUserBlogs = async (req, res) => {
+  const token = req.headers["x-access-token"];
+  //   console.log(token);
+  try {
+    jwt.verify(token, process.env.JWT_SECRET);
+
+    const userArticles = await BlogModel.find({});
+
+    return res.status(200).json({ status: "ok", articles: userArticles });
+  } catch (error) {
+    console.log(error);
+    res.json({ status: "error", error: "invalid token" });
+  }
+};
+
+export const deleteArticle = async (req, res) => {
+  const id = req.params.id;
+
+  console.log(id);
+
+  BlogModel.deleteOne({ _id: id }, (err) => {
+    if (err) {
+      console.error(err);
+    } else {
+      return res.json({ message: "Blog deleted successfully'" });
+    }
+  });
+};
+
+export const deleteComment = async (req, res) => {
+  const { blogId, commentId } = req.params;
+
+  try {
+    const updatedBlog = await BlogModel.findByIdAndUpdate(blogId, {
+      $pull: {
+        comment: {
+          _id: commentId
+        }
+      }
+    }, { new: true });
+
+    if (!updatedBlog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+
+    return res.json({ message: "Comment deleted successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
